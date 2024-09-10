@@ -1,0 +1,70 @@
+<div
+  style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10vh;
+  "
+>
+  <div style="display: flex; flex-direction: row; align-items: center;">
+    <app-text-input
+      (usernameChange)="receiveUsernameOne($event)"
+    ></app-text-input>
+    <p style="margin: 0 20px">VS</p>
+    <app-text-input
+      (usernameChange)="receiveUsernameTwo($event)"
+    ></app-text-input>
+  </div>
+  <br />
+  <button class="submit-button" (click)="onSubmit()">Duel</button>
+</div>
+
+<div *ngIf="userDataOne && userDataTwo" style="display: flex; justify-content: space-around; margin-top: 20px;">
+  <!-- User One Profile -->
+  <div style="border: 1px solid black; padding: 20px; max-width: 400px; width: 45%;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <img [src]="userDataOne.avatar_url || 'path/to/default-avatar.png'" alt="{{ userDataOne.username || 'Unavailable' }}" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: 20px;" />
+      <p>{{ userDataOne.bio || 'A Github Programmer' }}</p>
+    </div>
+    <div style="padding-left: 20px;">
+      <h2>
+        {{ userDataOne.name || 'Anonymous' }} ({{ userDataOne.username || 'Unavailable' }})
+        <span *ngIf="leftWonOverall !== -1">👑</span>
+        <span *ngIf="leftWonOverall === -1">💀</span>
+      </h2>
+      <p>Location: {{ userDataOne.location || 'Unknown' }} <span *ngIf="leftWonLocation === 1">✅</span><span *ngIf="leftWonLocation === -1">❌</span><span *ngIf="leftWonLocation === 0">➖</span></p>
+      <p>Titles: {{ userDataOne.titles.length ? userDataOne.titles.join(', ') : 'None' }} <span *ngIf="leftWonTitle === 1">✅</span><span *ngIf="leftWonTitle === -1">❌</span><span *ngIf="leftWonTitle === 0">➖</span></p>
+      <p>Favorite Language: {{ userDataOne['favorite-language'] || 'None' }} <span *ngIf="leftWonFavLanguage === 1">✅</span><span *ngIf="leftWonFavLanguage === -1">❌</span><span *ngIf="leftWonFavLanguage === 0">➖</span></p>
+      <p>Public Repos: {{ userDataOne['public-repos'] || 'None' }} <span *ngIf="leftWonRepos === 1">✅</span><span *ngIf="leftWonRepos === -1">❌</span><span *ngIf="leftWonRepos === 0">➖</span></p>
+      <p>Total Stars: {{ userDataOne['total-stars'] || 'Private' }} <span *ngIf="leftWontotalStars === 1">✅</span><span *ngIf="leftWontotalStars === -1">❌</span><span *ngIf="leftWontotalStars === 0">➖</span></p>
+      <p>Highest Starred: {{ userDataOne['highest-starred'] || 'Private' }} <span *ngIf="leftWonhighestStarred === 1">✅</span><span *ngIf="leftWonhighestStarred === -1">❌</span><span *ngIf="leftWonhighestStarred === 0">➖</span></p>
+      <p>Perfect Repos: {{ userDataOne['perfect-repos'] || 'Private' }} <span *ngIf="leftWonPerfRepos === 1">✅</span><span *ngIf="leftWonPerfRepos === -1">❌</span><span *ngIf="leftWonPerfRepos === 0">➖</span></p>
+      <p>Followers: {{ userDataOne.followers || 'Private' }} <span *ngIf="leftwonFollowers === 1">✅</span><span *ngIf="leftwonFollowers === -1">❌</span><span *ngIf="leftwonFollowers === 0">➖</span></p>
+      <p>Following: {{ userDataOne.following || 'Private' }} <span *ngIf="leftWonFollowing === 1">✅</span><span *ngIf="leftWonFollowing === -1">❌</span><span *ngIf="leftWonFollowing === 0">➖</span></p>
+    </div>
+  </div>
+
+  <!-- User Two Profile -->
+  <div style="border: 1px solid black; padding: 20px; max-width: 400px; width: 45%;">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      <img [src]="userDataTwo.avatar_url || 'path/to/default-avatar.png'" alt="{{ userDataTwo.username || 'Unavailable' }}" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: 20px;" />
+      <p>{{ userDataTwo.bio || 'A Github Programmer' }}</p>
+    </div>
+    <div style="padding-left: 20px;">
+      <h2>
+        {{ userDataTwo.name || 'Anonymous' }} ({{ userDataTwo.username || 'Unavailable' }})
+        <span *ngIf="leftWonOverall !== 1">👑</span>
+        <span *ngIf="leftWonOverall === 1">💀</span>
+      </h2>
+      <p>Location: {{ userDataTwo.location || 'Unknown' }} <span *ngIf="leftWonLocation === -1">✅</span><span *ngIf="leftWonLocation === 1">❌</span><span *ngIf="leftWonLocation === 0">➖</span></p>
+      <p>Titles: {{ userDataTwo.titles.length ? userDataTwo.titles.join(', ') : 'None' }} <span *ngIf="leftWonTitle === -1">✅</span><span *ngIf="leftWonTitle === 1">❌</span><span *ngIf="leftWonTitle === 0">➖</span></p>
+      <p>Favorite Language: {{ userDataTwo['favorite-language'] || 'None' }} <span *ngIf="leftWonFavLanguage === -1">✅</span><span *ngIf="leftWonFavLanguage === 1">❌</span><span *ngIf="leftWonFavLanguage === 0">➖</span></p>
+      <p>Public Repos: {{ userDataTwo['public-repos'] || 'None' }} <span *ngIf="leftWonRepos === -1">✅</span><span *ngIf="leftWonRepos === 1">❌</span><span *ngIf="leftWonRepos === 0">➖</span></p>
+      <p>Total Stars: {{ userDataTwo['total-stars'] || 'Private' }} <span *ngIf="leftWontotalStars === -1">✅</span><span *ngIf="leftWontotalStars === 1">❌</span><span *ngIf="leftWontotalStars === 0">➖</span></p>
+      <p>Highest Starred: {{ userDataTwo['highest-starred'] || 'Private' }} <span *ngIf="leftWonhighestStarred === -1">✅</span><span *ngIf="leftWonhighestStarred === 1">❌</span><span *ngIf="leftWonhighestStarred === 0">➖</span></p>
+      <p>Perfect Repos: {{ userDataTwo['perfect-repos'] || 'Private' }} <span *ngIf="leftWonPerfRepos === -1">✅</span><span *ngIf="leftWonPerfRepos === 1">❌</span><span *ngIf="leftWonPerfRepos === 0">➖</span></p>
+      <p>Followers: {{ userDataTwo.followers || 'Private' }} <span *ngIf="leftwonFollowers === -1">✅</span><span *ngIf="leftwonFollowers === 1">❌</span><span *ngIf="leftwonFollowers === 0">➖</span></p>
+      <p>Following: {{ userDataTwo.following || 'Private' }} <span *ngIf="leftWonFollowing === -1">✅</span><span *ngIf="leftWonFollowing === 1">❌</span><span *ngIf="leftWonFollowing === 0">➖</span></p>
+    </div>
+  </div>
+</div>

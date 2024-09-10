@@ -1,0 +1,29 @@
+<div style="text-align: center; margin-top: 10vh;">
+  <div style="display: inline-block; text-align: center;">
+    <app-text-input (usernameChange)="receiveUsername($event)"></app-text-input>
+    <br />
+    <br />
+    <button class="submit-button" (click)="onSubmit()">Inspect</button>
+  </div>
+</div>
+
+<div *ngIf="userData" style="position: relative; margin: 20px auto; border: 1px solid black; padding: 20px; max-width: 800px; width: 100%; text-align: left;">
+  <div style="display: flex; justify-content: center; align-items: flex-start;">
+    <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+      <img [src]="userData.avatar_url || 'path/to/default-avatar.png'" alt="{{ userData.username || 'Unavailable' }}" style="width: 150px; height: 150px; border-radius: 50%; margin-bottom: 20px;" />
+      <p>{{ userData.bio || 'Unavailable' }}</p>
+    </div>
+    <div style="flex: 2; padding-left: 20px;">
+      <h2>{{ userData.name || 'Unavailable' }} ({{ userData.username || 'Unavailable' }})</h2>
+      <p>Location: {{ userData.location || 'Unavailable' }}</p>
+      <p>Titles: {{ userData.titles.length ? userData.titles.join(', ') : 'Unavailable' }}</p>
+      <p>Favorite Language: {{ userData['favorite-language'] || 'Unavailable' }}</p>
+      <p>Public Repos: {{ userData['public-repos'] || 'Unavailable' }}</p>
+      <p>Total Stars: {{ userData['total-stars'] || 'Unavailable' }}</p>
+      <p>Highest Starred: {{ userData['highest-starred'] || 'Unavailable' }}</p>
+      <p>Perfect Repos: {{ userData['perfect-repos'] || 'Unavailable' }}</p>
+      <p>Followers: {{ userData.followers || 'Unavailable' }}</p>
+      <p>Following: {{ userData.following || 'Unavailable' }}</p>
+    </div>
+  </div>
+</div>
